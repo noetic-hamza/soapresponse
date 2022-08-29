@@ -1,0 +1,44 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://schemas.ericsson.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://schemas.ericsson.com/" targetNamespace="http://schemas.ericsson.com/">
+    <wsdl:types>
+        <xsd:schema xmlns="http://schemas.ericsson.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://schemas.ericsson.com/">
+            <xsd:element name="UserRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="UserName" type="xsd:string"/>
+                        <xsd:element name="UsePassword" type="xsd:string"/>
+                        <xsd:element name="DN" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="Acknowledgment">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element maxOccurs="unbounded" name="CriteriaMismatch" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="UserRequest">
+        <wsdl:part element="tns:UserRequest" name="UserRequest"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="User">
+        <wsdl:operation name="User">
+            <wsdl:input message="tns:UserRequest" name="UserRequest"> </wsdl:input>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="UserSoap11" type="tns:User">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="User">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="UserRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="UserService">
+        <wsdl:port binding="tns:UserSoap11" name="UserSoap11">
+            <soap:address location="http://localhost:8080/ws"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
